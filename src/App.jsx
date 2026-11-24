@@ -1,21 +1,15 @@
-import SiteFooter from './components/layout/SiteFooter.jsx'
-import SiteHeader from './components/layout/SiteHeader.jsx'
-import ConceptsSection from './components/sections/ConceptsSection.jsx'
-import Hero from './components/sections/Hero.jsx'
-import IntroStrip from './components/sections/IntroStrip.jsx'
-import QuizSection from './components/sections/QuizSection.jsx'
-import SimulatorSection from './components/sections/SimulatorSection.jsx'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage.jsx'
+import SimulatorPage from './pages/SimulatorPage.jsx'
 
 export default function App() {
   return (
-    <main>
-      <SiteHeader />
-      <Hero />
-      <IntroStrip />
-      <ConceptsSection />
-      <SimulatorSection />
-      <QuizSection />
-      <SiteFooter />
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/simulador" element={<SimulatorPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }

@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import {
   ArrowDown,
+  ArrowRight,
   Cpu,
   Folder,
   Image as ImageIcon,
@@ -10,9 +12,6 @@ export default function Hero() {
   return (
     <section className="hero" id="inicio">
       <div className="hero-copy">
-        <div className="hero-tag">
-          <Cpu size={15} /> SISTEMAS OPERACIONAIS
-        </div>
         <h1>
           Como o computador
           <br />
@@ -22,11 +21,13 @@ export default function Hero() {
           Conheça o sistema operacional: o programa que coordena as tarefas e
           organiza os arquivos do computador.
         </p>
-        <a className="hero-cta" href="#conceitos">
-          Conhecer os conceitos <ArrowDown size={17} />
-        </a>
-        <div className="hero-note">
-          <span>Conceitos fundamentais, exemplos visuais e simulações.</span>
+        <div className="hero-cta-row">
+          <a className="hero-cta" href="#conceitos">
+            Conhecer os conceitos <ArrowDown size={17} />
+          </a>
+          <Link to="/simulador" className="hero-cta secondary">
+            Entrar no simulador <ArrowRight size={17} />
+          </Link>
         </div>
       </div>
 

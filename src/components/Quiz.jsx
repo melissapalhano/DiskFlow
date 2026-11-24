@@ -54,7 +54,7 @@ export default function Quiz() {
             questões.
           </p>
           <button className="quiz-next" type="button" onClick={restart}>
-            Refazer questionário <RotateCcw size={16} />
+            Refazer quiz <RotateCcw size={16} />
           </button>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function Quiz() {
     <div className="quiz-card">
       <div className="quiz-head">
         <div>
-          <div className="eyebrow">QUESTIONÁRIO</div>
+          <div className="eyebrow">QUIZ</div>
           <h3>
             Questão {step + 1} de {total}
           </h3>

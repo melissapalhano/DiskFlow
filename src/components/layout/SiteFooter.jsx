@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Cpu } from 'lucide-react'
 
 export default function SiteFooter() {
@@ -12,7 +13,7 @@ export default function SiteFooter() {
         </span>
       </a>
       <p>Sistemas Operacionais · Material educativo.</p>
-      <a href="#inicio">Voltar ao início ↑</a>
+      <Link to="/simulador">Entrar no simulador →</Link>
     </footer>
   )
 }
