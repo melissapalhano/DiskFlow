@@ -10,7 +10,7 @@ import {
 
 export default function Hero() {
   return (
-    <section className="hero" id="inicio">
+    <section className="hero" id="home">
       <div className="hero-copy">
         <h1>
           Como o computador
@@ -22,10 +22,10 @@ export default function Hero() {
           organiza os arquivos do computador.
         </p>
         <div className="hero-cta-row">
-          <a className="hero-cta" href="#conceitos">
+          <a className="hero-cta" href="#concepts">
             Conhecer os conceitos <ArrowDown size={17} />
           </a>
-          <Link to="/simulador" className="hero-cta secondary">
+          <Link to="/simulator" className="hero-cta secondary">
             Entrar no simulador <ArrowRight size={17} />
           </Link>
         </div>

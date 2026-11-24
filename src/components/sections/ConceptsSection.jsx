@@ -73,7 +73,7 @@ const CONCEPTS = [
 
 export default function ConceptsSection() {
   return (
-    <section className="concepts-section" id="conceitos">
+    <section className="concepts-section" id="concepts">
       <div className="section-heading">
         <SectionLabel number="01">CONCEITOS FUNDAMENTAIS</SectionLabel>
         <h2>

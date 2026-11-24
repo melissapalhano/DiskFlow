@@ -1367,7 +1367,7 @@ main {
   }
 }
 
-/* Uma identidade acadêmica mais sóbria, mantendo a leitura simples e acolhedora. */
+/* A calmer academic identity while keeping the layout simple and approachable. */
 :root {
   --background: #f7f8fa;
   --foreground: #1f2d3d;
@@ -1607,7 +1607,7 @@ body {
   color: #244b70;
 }
 
-/* ===== Laboratório / simulador ===== */
+/* ===== Lab / simulator ===== */
 .sim-page {
   min-height: 100svh;
   background: #f7f8fa;
@@ -2268,7 +2268,7 @@ body {
   background: #eaf0f5;
 }
 
-/* ===== Editor de arquivos / usabilidade do lab ===== */
+/* ===== File editor / lab usability ===== */
 .lab-topbar {
   display: flex;
   justify-content: space-between;
@@ -2592,7 +2592,7 @@ body {
   color: #1f2d3d;
 }
 
-/* ===== Layout do laboratório (sidebar + stage) ===== */
+/* ===== Lab layout (sidebar + stage) ===== */
 .lab-layout {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
@@ -2800,7 +2800,7 @@ body {
   }
 }
 
-/* ===== Ajustes de usabilidade ===== */
+/* ===== Usability tweaks ===== */
 .hero-copy {
   padding-top: 12px;
 }
@@ -3026,7 +3026,7 @@ body {
   gap: 14px;
 }
 
-/* ===== Comparação redesenhada ===== */
+/* ===== Compare view redesign ===== */
 .header-cta {
   min-width: 168px;
   justify-content: center;

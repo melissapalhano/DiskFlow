@@ -10,14 +10,14 @@ import CompareView from '../components/simulator/CompareView.jsx'
 import StrategyLab from '../components/simulator/StrategyLab.jsx'
 
 const TABS = [
-  { id: 'contigua', label: 'Contígua', icon: SquareStack },
-  { id: 'encadeada', label: 'Encadeada', icon: Link2 },
-  { id: 'indexada', label: 'Indexada', icon: TableProperties },
-  { id: 'comparar', label: 'Comparar', icon: GitCompareArrows },
+  { id: 'contiguous', label: 'Contígua', icon: SquareStack },
+  { id: 'chained', label: 'Encadeada', icon: Link2 },
+  { id: 'indexed', label: 'Indexada', icon: TableProperties },
+  { id: 'compare', label: 'Comparar', icon: GitCompareArrows },
 ]
 
 export default function SimulatorPage() {
-  const [tab, setTab] = useState('contigua')
+  const [tab, setTab] = useState('contiguous')
 
   return (
     <div className="sim-page">
@@ -42,8 +42,10 @@ export default function SimulatorPage() {
       </nav>
 
       <div className="sim-page-body">
-        {tab === 'comparar' && <CompareView />}
-        {(tab === 'contigua' || tab === 'encadeada' || tab === 'indexada') && (
+        {tab === 'compare' && <CompareView />}
+        {(tab === 'contiguous' ||
+          tab === 'chained' ||
+          tab === 'indexed') && (
           <StrategyLab key={tab} strategy={tab} />
         )}
       </div>

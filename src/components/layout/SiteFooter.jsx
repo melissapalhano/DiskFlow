@@ -4,7 +4,7 @@ import { Cpu } from 'lucide-react'
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
-      <a className="brand" href="#inicio">
+      <a className="brand" href="#home">
         <span className="brand-icon">
           <Cpu size={20} />
         </span>
@@ -13,7 +13,7 @@ export default function SiteFooter() {
         </span>
       </a>
       <p>Sistemas Operacionais · Material educativo.</p>
-      <Link to="/simulador">Entrar no simulador →</Link>
+      <Link to="/simulator">Entrar no simulador →</Link>
     </footer>
   )
 }

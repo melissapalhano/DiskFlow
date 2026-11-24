@@ -19,25 +19,25 @@ import DiskGrid from './DiskGrid.jsx'
 import FileEditor from './FileEditor.jsx'
 import SettingsPanel from './SettingsPanel.jsx'
 
-const STRATEGIES = ['contigua', 'encadeada', 'indexada']
+const STRATEGIES = ['contiguous', 'chained', 'indexed']
 
 export default function CompareView() {
   const [diskSize, setDiskSize] = useState(DEFAULT_DISK_SIZE)
-  const [timingPreset, setTimingPreset] = useState('equilibrado')
+  const [timingPreset, setTimingPreset] = useState('balanced')
   const timing = TIMING_PRESETS[timingPreset].values
   const [files, setFiles] = useState(() => cloneInitialFiles())
   const [selectedId, setSelectedId] = useState('')
-  const [activePreset, setActivePreset] = useState('basico')
+  const [activePreset, setActivePreset] = useState('basic')
   const [editorRevision, setEditorRevision] = useState(0)
 
-  const animContigua = useAccessAnimation(timing)
-  const animEncadeada = useAccessAnimation(timing)
-  const animIndexada = useAccessAnimation(timing)
+  const animContiguous = useAccessAnimation(timing)
+  const animChained = useAccessAnimation(timing)
+  const animIndexed = useAccessAnimation(timing)
 
   const animations = {
-    contigua: animContigua,
-    encadeada: animEncadeada,
-    indexada: animIndexada,
+    contiguous: animContiguous,
+    chained: animChained,
+    indexed: animIndexed,
   }
 
   const busy = STRATEGIES.some((strategy) => animations[strategy].playing)
@@ -50,7 +50,7 @@ export default function CompareView() {
     return map
   }, [files, diskSize])
 
-  const freeBlocks = countFreeBlocks(plans.contigua.blocks)
+  const freeBlocks = countFreeBlocks(plans.contiguous.blocks)
   const selectedFile = files.find((file) => file.id === selectedId) ?? files[0]
 
   const rankings = useMemo(() => {
@@ -132,7 +132,7 @@ export default function CompareView() {
   }
 
   const reset = async () => {
-    await loadPreset('basico')
+    await loadPreset('basic')
     setEditorRevision((value) => value + 1)
   }
 

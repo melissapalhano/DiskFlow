@@ -7,7 +7,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/simulador" element={<SimulatorPage />} />
+        <Route path="/simulator" element={<SimulatorPage />} />
+        <Route
+          path="/simulador"
+          element={<Navigate to="/simulator" replace />}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

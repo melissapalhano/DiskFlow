@@ -49,7 +49,7 @@ export default function MetaPanel({
       </div>
 
       <div className="lab-meta-strategy">
-        {strategy === 'contigua' && (
+        {strategy === 'contiguous' && (
           <div className="meta-card">
             <strong>Intervalo contínuo</strong>
             <p>
@@ -64,7 +64,7 @@ export default function MetaPanel({
           </div>
         )}
 
-        {strategy === 'encadeada' && (
+        {strategy === 'chained' && (
           <div className="meta-card">
             <strong>Cadeia de ponteiros</strong>
             <ol className="pointer-chain">
@@ -84,7 +84,7 @@ export default function MetaPanel({
           </div>
         )}
 
-        {(strategy === 'indexada' || showIndex) && (
+        {(strategy === 'indexed' || showIndex) && (
           <div className="meta-card index-card">
             <table className="index-table">
               <thead>

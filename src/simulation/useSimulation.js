@@ -25,7 +25,7 @@ const ANIM_STEP_MS = 480
 export function useSimulation(strategy) {
   const detail = STRATEGY_DETAILS[strategy]
   const [diskSize, setDiskSize] = useState(DEFAULT_DISK_SIZE)
-  const [timingPreset, setTimingPreset] = useState('equilibrado')
+  const [timingPreset, setTimingPreset] = useState('balanced')
   const timing =
     TIMING_PRESETS[timingPreset]?.values ?? DEFAULT_TIMING
   const [files, setFiles] = useState(() => cloneInitialFiles())
@@ -114,11 +114,11 @@ export function useSimulation(strategy) {
   const createFile = async (file) => {
     resetAnimation()
     const canFit =
-      strategy !== 'contigua' || hasContiguousSpace(blocks, file.blocks)
+      strategy !== 'contiguous' || hasContiguousSpace(blocks, file.blocks)
 
     if (file.blocks > freeBlocks || !canFit) {
       setMessage(
-        strategy === 'contigua'
+        strategy === 'contiguous'
           ? 'Sem sequência contínua suficiente (fragmentação externa).'
           : 'Sem blocos livres o bastante.',
       )

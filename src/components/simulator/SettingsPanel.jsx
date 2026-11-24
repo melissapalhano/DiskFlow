@@ -4,12 +4,12 @@ import { TIMING_PRESETS } from '../../simulation/timingPresets.js'
 
 export default function SettingsPanel({
   diskSize,
-  timingPreset = 'equilibrado',
+  timingPreset = 'balanced',
   onDiskSizeChange,
   onTimingPresetChange,
   busy = false,
 }) {
-  const preset = TIMING_PRESETS[timingPreset] ?? TIMING_PRESETS.equilibrado
+  const preset = TIMING_PRESETS[timingPreset] ?? TIMING_PRESETS.balanced
 
   return (
     <div className="settings-panel">

@@ -29,7 +29,7 @@ const PREVIEWS = [
 
 export default function SimulatorSection() {
   return (
-    <section className="simulator-section" id="simulador">
+    <section className="simulator-section" id="simulator">
       <div className="section-heading">
         <SectionLabel number="02">ALOCAÇÃO DE ARQUIVOS</SectionLabel>
         <h2>
@@ -53,7 +53,7 @@ export default function SimulatorSection() {
             Explore cada tipo de alocação, compare lado a lado e rode exemplos
             guiados com animação passo a passo.
           </p>
-          <Link to="/simulador" className="hero-cta">
+          <Link to="/simulator" className="hero-cta">
             Entrar no simulador <ArrowRight size={17} />
           </Link>
         </div>

@@ -9,7 +9,7 @@ function findContiguousSegment(blocks, size) {
   return []
 }
 
-/** Ordem espalhada a partir dos blocos livres (funciona com qualquer tamanho). */
+/** Scattered order from free blocks (works with any disk size). */
 function pickScatteredPositions(blocks, size) {
   const free = blocks
     .map((block, index) => (block === null ? index : -1))
@@ -22,16 +22,16 @@ function pickScatteredPositions(blocks, size) {
 }
 
 function pickPositions(blocks, file, strategy) {
-  if (strategy === 'contigua') {
+  if (strategy === 'contiguous') {
     return findContiguousSegment(blocks, file.blocks)
   }
   return pickScatteredPositions(blocks, file.blocks)
 }
 
 /**
- * Planeja a alocação no disco virtual.
+ * Plans allocation on the virtual disk.
  * @param {{ name: string; blocks: number; color: string; id?: string }[]} files
- * @param {'contigua' | 'encadeada' | 'indexada'} strategy
+ * @param {'contiguous' | 'chained' | 'indexed'} strategy
  * @param {number} diskSize
  */
 export function planAllocation(files, strategy, diskSize) {
@@ -59,13 +59,13 @@ export function planAllocation(files, strategy, diskSize) {
       file,
       positions,
       pointers:
-        strategy === 'encadeada'
+        strategy === 'chained'
           ? positions.slice(0, -1).map((from, i) => ({
               from,
               to: positions[i + 1],
             }))
           : [],
-      indexEntries: strategy === 'indexada' ? [...positions] : [],
+      indexEntries: strategy === 'indexed' ? [...positions] : [],
       failed: false,
     })
   })

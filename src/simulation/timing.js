@@ -1,10 +1,10 @@
 import { DEFAULT_TIMING } from './constants.js'
 
 /**
- * Calcula o tempo total de acesso (unidades de tempo) conforme a estratégia.
- * Contígua: 1 seek + n reads + (n-1) sequenciais
- * Encadeada: n reads + (n-1) ponteiros + seeks entre blocos não adjacentes
- * Indexada: 1 consulta ao índice + n (seek + read)
+ * Computes total access time (time units) for the given strategy.
+ * Contiguous: 1 seek + n reads + (n-1) sequential moves
+ * Chained: n reads + (n-1) pointers + seeks between non-adjacent blocks
+ * Indexed: 1 index lookup + n (seek + read)
  */
 export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING) {
   const n = positions.length
@@ -12,7 +12,7 @@ export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING)
     return { total: 0, breakdown: [], label: 'Sem blocos' }
   }
 
-  if (strategy === 'contigua') {
+  if (strategy === 'contiguous') {
     const breakdown = [
       { label: 'Ir até o início do arquivo', cost: timing.seek },
       { label: `Ler ${n} bloco(s)`, cost: timing.read * n },
@@ -28,7 +28,7 @@ export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING)
     }
   }
 
-  if (strategy === 'encadeada') {
+  if (strategy === 'chained') {
     let seeks = timing.seek
     let pointers = 0
     for (let i = 0; i < n - 1; i++) {
@@ -66,14 +66,14 @@ export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING)
   }
 }
 
-/** Acumula tempo por passo da animação. */
+/** Builds timed animation steps for access playback. */
 export function buildTimedAccessSteps(strategy, positions, timing = DEFAULT_TIMING) {
   const estimate = estimateAccessTime(strategy, positions, timing)
   if (!positions.length) return { steps: [], estimate }
 
   let elapsed = 0
 
-  if (strategy === 'contigua') {
+  if (strategy === 'contiguous') {
     elapsed += timing.seek
     const steps = [
       {
@@ -114,7 +114,7 @@ export function buildTimedAccessSteps(strategy, positions, timing = DEFAULT_TIMI
     return { steps, estimate: { ...estimate, total: elapsed } }
   }
 
-  if (strategy === 'encadeada') {
+  if (strategy === 'chained') {
     elapsed += timing.seek
     const steps = [
       {

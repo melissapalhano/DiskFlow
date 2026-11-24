@@ -1,4 +1,4 @@
-/** Reexporta constantes legadas a partir do motor de simulação. */
+/** Re-exports legacy constants from the simulation engine. */
 export {
   DEFAULT_DISK_SIZE as DISK_SIZE,
   DEMO_SCENARIOS,

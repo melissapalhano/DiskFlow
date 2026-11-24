@@ -24,7 +24,7 @@ export default function IntroStrip() {
           Trabalham em conjunto com sua coordenação.
         </p>
       </div>
-      <a href="#conceitos" className="intro-link">
+      <a href="#concepts" className="intro-link">
         Ver conceitos <ArrowRight size={16} />
       </a>
     </section>

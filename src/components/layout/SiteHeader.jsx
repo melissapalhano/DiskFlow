@@ -3,7 +3,7 @@ import { ArrowRight, Cpu } from 'lucide-react'
 
 export default function SiteHeader() {
   const { pathname } = useLocation()
-  const onSimulator = pathname.startsWith('/simulador')
+  const onSimulator = pathname.startsWith('/simulator')
 
   return (
     <header className="site-header">
@@ -17,15 +17,15 @@ export default function SiteHeader() {
       </Link>
 
       <nav aria-label="Navegação principal">
-        <a href="/#conceitos">Fundamentos</a>
-        <a href="/#simulador">Simulador</a>
+        <a href="/#concepts">Fundamentos</a>
+        <a href="/#simulator">Simulador</a>
         <a href="/#quiz">Quiz</a>
       </nav>
 
       {onSimulator ? (
         <span className="header-cta header-cta-spacer" aria-hidden="true" />
       ) : (
-        <Link to="/simulador" className="header-cta">
+        <Link to="/simulator" className="header-cta">
           Entrar no simulador <ArrowRight size={15} />
         </Link>
       )}

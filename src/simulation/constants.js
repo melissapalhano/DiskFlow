@@ -2,7 +2,7 @@ export const DEFAULT_DISK_SIZE = 24
 
 export const DISK_SIZE_OPTIONS = [12, 16, 24, 32, 48]
 
-/** Custos em unidades de tempo (u.t.) para a simulação educativa. */
+/** Timing costs in time units (t.u.) for the educational simulation. */
 export const DEFAULT_TIMING = {
   seek: 10,
   sequential: 1,
@@ -20,13 +20,13 @@ export const FILE_COLORS = [
 ]
 
 export const INITIAL_FILES = [
-  { id: 'demo-imagem', name: 'Imagem', blocks: 3, color: FILE_COLORS[0] },
-  { id: 'demo-texto', name: 'Texto', blocks: 2, color: FILE_COLORS[1] },
+  { id: 'demo-image', name: 'Imagem', blocks: 3, color: FILE_COLORS[0] },
+  { id: 'demo-text', name: 'Texto', blocks: 2, color: FILE_COLORS[1] },
   { id: 'demo-audio', name: 'Áudio', blocks: 3, color: FILE_COLORS[2] },
 ]
 
 export const STRATEGY_DETAILS = {
-  contigua: {
+  contiguous: {
     title: 'Contígua',
     analogy: 'Blocos em sequência',
     short: 'Lado a lado no disco',
@@ -41,7 +41,7 @@ export const STRATEGY_DETAILS = {
       'Precisa de espaço contínuo',
     ],
   },
-  encadeada: {
+  chained: {
     title: 'Encadeada',
     analogy: 'Blocos ligados por ponteiros',
     short: 'Cada bloco aponta para o próximo',
@@ -56,7 +56,7 @@ export const STRATEGY_DETAILS = {
       'Pior localidade espacial',
     ],
   },
-  indexada: {
+  indexed: {
     title: 'Indexada',
     analogy: 'Endereços reunidos em um índice',
     short: 'Tabela com todos os endereços',
@@ -75,13 +75,13 @@ export const STRATEGY_DETAILS = {
 
 export const DEMO_SCENARIOS = [
   {
-    id: 'basico',
+    id: 'basic',
     title: 'Cenário básico',
     description: 'Três arquivos pequenos para comparar as estratégias.',
     files: INITIAL_FILES,
   },
   {
-    id: 'fragmentacao',
+    id: 'fragmentation',
     title: 'Fragmentação',
     description: 'Vários arquivos pequenos intercalados no disco.',
     files: [
@@ -92,7 +92,7 @@ export const DEMO_SCENARIOS = [
     ],
   },
   {
-    id: 'grande',
+    id: 'large',
     title: 'Arquivo maior',
     description: 'Um arquivo de 6 blocos destaca diferenças de tempo.',
     files: [
