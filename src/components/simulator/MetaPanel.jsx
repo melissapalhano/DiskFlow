@@ -10,18 +10,17 @@ export default function MetaPanel({
   if (!placement) {
     return (
       <div className="lab-meta">
-        <h4>Detalhes do acesso</h4>
-        <p className="lab-meta-empty">
-          Selecione um arquivo para ver localização e tempo estimado.
-        </p>
+        <div className="lab-meta-strategy">
+          <p className="lab-meta-empty">
+            Selecione um arquivo para ver localização e tempo estimado.
+          </p>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="lab-meta">
-      <h4>Detalhes · {placement.file.name}</h4>
-
       <div className="meta-card time-card">
         <strong>
           <Clock size={14} /> Tempo para ler o arquivo
@@ -49,62 +48,63 @@ export default function MetaPanel({
         )}
       </div>
 
-      {strategy === 'contigua' && (
-        <div className="meta-card">
-          <strong>Intervalo contínuo</strong>
-          <p>
-            Início no bloco <b>{placement.positions[0] + 1}</b>, tamanho{' '}
-            <b>{placement.positions.length}</b>.
-          </p>
-          <div className="meta-chips">
-            {placement.positions.map((p) => (
-              <span key={p}>{p + 1}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {strategy === 'encadeada' && (
-        <div className="meta-card">
-          <strong>Cadeia de ponteiros</strong>
-          <ol className="pointer-chain">
-            {placement.positions.map((block, i) => (
-              <li key={block}>
-                <span className="ptr-block">{block + 1}</span>
-                {i < placement.positions.length - 1 ? (
-                  <span className="ptr-arrow">
-                    → {placement.positions[i + 1] + 1}
-                  </span>
-                ) : (
-                  <span className="ptr-end">FIM</span>
-                )}
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-
-      {(strategy === 'indexada' || showIndex) && (
-        <div className="meta-card index-card">
-          <strong>Bloco de índices</strong>
-          <table className="index-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Endereço</th>
-              </tr>
-            </thead>
-            <tbody>
-              {placement.positions.map((block, i) => (
-                <tr key={block}>
-                  <td>{i}</td>
-                  <td>bloco {block + 1}</td>
-                </tr>
+      <div className="lab-meta-strategy">
+        {strategy === 'contigua' && (
+          <div className="meta-card">
+            <strong>Intervalo contínuo</strong>
+            <p>
+              Início no bloco <b>{placement.positions[0] + 1}</b>, tamanho{' '}
+              <b>{placement.positions.length}</b>.
+            </p>
+            <div className="meta-chips">
+              {placement.positions.map((p) => (
+                <span key={p}>{p + 1}</span>
               ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            </div>
+          </div>
+        )}
+
+        {strategy === 'encadeada' && (
+          <div className="meta-card">
+            <strong>Cadeia de ponteiros</strong>
+            <ol className="pointer-chain">
+              {placement.positions.map((block, i) => (
+                <li key={block}>
+                  <span className="ptr-block">{block + 1}</span>
+                  {i < placement.positions.length - 1 ? (
+                    <span className="ptr-arrow">
+                      → {placement.positions[i + 1] + 1}
+                    </span>
+                  ) : (
+                    <span className="ptr-end">FIM</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {(strategy === 'indexada' || showIndex) && (
+          <div className="meta-card index-card">
+            <table className="index-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Endereço</th>
+                </tr>
+              </thead>
+              <tbody>
+                {placement.positions.map((block, i) => (
+                  <tr key={block}>
+                    <td>{i}</td>
+                    <td>bloco {block + 1}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

@@ -29,7 +29,6 @@ export default function CompareView() {
   const [selectedId, setSelectedId] = useState('')
   const [activePreset, setActivePreset] = useState('basico')
   const [editorRevision, setEditorRevision] = useState(0)
-  const [status, setStatus] = useState('')
 
   const animContigua = useAccessAnimation(timing)
   const animEncadeada = useAccessAnimation(timing)
@@ -85,7 +84,6 @@ export default function CompareView() {
     setSelectedId(next[0].id)
     setActivePreset(scenarioId)
     setEditorRevision((value) => value + 1)
-    setStatus('')
   }
 
   const handleCreate = (file) => {
@@ -94,7 +92,6 @@ export default function CompareView() {
     setFiles((current) => [...current, file])
     setSelectedId(file.id)
     setActivePreset('custom')
-    setStatus('')
     return true
   }
 
@@ -108,7 +105,6 @@ export default function CompareView() {
     )
     setSelectedId(file.id)
     setActivePreset('custom')
-    setStatus('')
     return true
   }
 
@@ -119,12 +115,10 @@ export default function CompareView() {
     setSelectedId(next[0]?.id ?? '')
     setActivePreset('custom')
     setEditorRevision((value) => value + 1)
-    setStatus('')
   }
 
   const runCompareAccess = async () => {
     if (!selectedFile) return
-    setStatus(`Comparando acesso a “${selectedFile.name}”…`)
 
     await Promise.all(
       STRATEGIES.map(async (strategy) => {
@@ -135,11 +129,6 @@ export default function CompareView() {
         await animations[strategy].play(strategy, positions)
       }),
     )
-
-    const winner = rankings[0]
-    setStatus(
-      `Mais rápida: ${winner.title} (${winner.total} unidades de tempo).`,
-    )
   }
 
   const reset = async () => {
@@ -147,7 +136,7 @@ export default function CompareView() {
     setEditorRevision((value) => value + 1)
   }
 
-  const gridColumns = diskSize <= 24 ? 8 : 8
+  const gridColumns = diskSize <= 24 ? 12 : 12
 
   return (
     <div className="compare-view lab-layout">
@@ -198,12 +187,10 @@ export default function CompareView() {
             clearAnimations()
             setDiskSize(size)
             setFiles((current) => fitFilesToDisk(current, size))
-            setStatus('')
           }}
           onTimingPresetChange={(presetId) => {
             clearAnimations()
             setTimingPreset(presetId)
-            setStatus('')
           }}
         />
       </aside>
@@ -236,25 +223,6 @@ export default function CompareView() {
               </button>
             </div>
           </div>
-
-          <div className="compare-ranking" aria-label="Ranking de tempo">
-            {rankings.map((item, index) => (
-              <div
-                key={item.strategy}
-                className={`rank-chip${index === 0 ? ' best' : ''}`}
-              >
-                <span>{index === 0 ? 'Mais rápida' : `${index + 1}º`}</span>
-                <strong>{item.title}</strong>
-                <b>{item.total}</b>
-              </div>
-            ))}
-          </div>
-
-          {status && (
-            <div className="sim-message lab-live" aria-live="polite">
-              <span>{status}</span>
-            </div>
-          )}
         </div>
 
         <div className="compare-stack">
@@ -290,20 +258,12 @@ export default function CompareView() {
 
                 <DiskGrid
                   fluid
-                  compact
                   columns={gridColumns}
                   blocks={plan.blocks}
                   activeBlocks={anim.activeBlocks}
                   trailBlocks={anim.trailBlocks}
                   label={`Disco ${detail.title}`}
                 />
-
-                <p className="compare-trace" aria-live="polite">
-                  {anim.step?.text ??
-                    (placement
-                      ? `Caminho: ${placement.positions.map((p) => p + 1).join(' → ')}`
-                      : 'Selecione um arquivo')}
-                </p>
               </article>
             )
           })}
