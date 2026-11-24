@@ -97,11 +97,9 @@ export default function StrategyLab({ strategy }) {
             columns={9}
           />
 
-          {liveText && (
-            <div className="sim-message lab-live" aria-live="polite">
-              <span>{liveText}</span>
-            </div>
-          )}
+          <div className="sim-message lab-live" aria-live="polite">
+            <span>{liveText || '\u00A0'}</span>
+          </div>
         </div>
 
         <div className="lab-below lab-below-equal">

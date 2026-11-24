@@ -2374,7 +2374,9 @@ body {
   padding: 0;
   display: grid;
   gap: 6px;
-  max-height: 320px;
+  align-content: start;
+  height: 408px;
+  max-height: 408px;
   overflow: auto;
 }
 
@@ -3218,24 +3220,21 @@ body {
 }
 
 .lab-layout-aligned {
-  align-items: stretch;
+  align-items: start;
 }
 
 .lab-layout-aligned .lab-sidebar {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 100%;
 }
 
 .lab-layout-aligned .sidebar-fill {
-  flex: 1;
   display: flex;
   min-height: 0;
 }
 
 .lab-layout-aligned .sidebar-fill .file-editor {
-  flex: 1;
   width: 100%;
 }
 
@@ -3247,7 +3246,13 @@ body {
 }
 
 .lab-layout-aligned .stage-fill {
-  flex: 1;
+  flex: 0 0 auto;
+}
+
+.lab-layout-aligned .lab-live,
+.lab-layout-aligned .sim-message.lab-live {
+  min-height: 42px;
+  margin-top: 12px;
 }
 
 .lab-below-equal {
@@ -3302,7 +3307,7 @@ body {
   width: 100%;
   min-height: 150px;
   padding: 10px;
-  overflow: visible;
+  overflow: auto;
   box-sizing: border-box;
 }
 
