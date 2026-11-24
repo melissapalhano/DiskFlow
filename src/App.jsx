@@ -1,11 +1,21 @@
-import './App.css'
+import SiteFooter from './components/layout/SiteFooter.jsx'
+import SiteHeader from './components/layout/SiteHeader.jsx'
+import ConceptsSection from './components/sections/ConceptsSection.jsx'
+import Hero from './components/sections/Hero.jsx'
+import IntroStrip from './components/sections/IntroStrip.jsx'
+import QuizSection from './components/sections/QuizSection.jsx'
+import SimulatorSection from './components/sections/SimulatorSection.jsx'
 
-function App() {
+export default function App() {
   return (
-    <main className="app">
-      <h1>DiskFlow</h1>
+    <main>
+      <SiteHeader />
+      <Hero />
+      <IntroStrip />
+      <ConceptsSection />
+      <SimulatorSection />
+      <QuizSection />
+      <SiteFooter />
     </main>
   )
 }
-
-export default App
