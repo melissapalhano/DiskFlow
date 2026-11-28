@@ -1,3 +1,18 @@
+// desenha o disco como uma grade de blocos. blocos de índice aparecem
+// tracejados com "IDX" e, na encadeada, o tooltip mostra o próximo bloco.
+function blockTitle(cell, index) {
+  const label = `bloco ${index + 1}`
+  if (!cell) return `Livre · ${label}`
+  if (cell.kind === 'index') {
+    const list = cell.entries.map((pos) => pos + 1).join(', ')
+    return `Índice de ${cell.file.name} · ${label} · aponta para ${list}`
+  }
+  if (cell.file && cell.next != null) {
+    return `${cell.file.name} · ${label} · próximo: ${cell.next + 1}`
+  }
+  return `${cell.file.name} · ${label}`
+}
+
 export default function DiskGrid({
   blocks,
   activeBlocks = [],
@@ -23,35 +38,35 @@ export default function DiskGrid({
       style={{ '--disk-cols': columns }}
       aria-label={label}
     >
-      {blocks.map((file, index) => {
-        const isActive = activeBlocks.includes(index)
-        const isTrail = trailBlocks.includes(index)
-        const isAllocating = allocatingBlocks.includes(index)
+      {blocks.map((cell, index) => {
+        const isIndex = cell?.kind === 'index'
+        const color = cell?.file.color
 
         return (
           <div
             key={index}
             className={[
               'lab-block',
-              file ? 'occupied' : '',
-              isActive ? 'active' : '',
-              isTrail ? 'trail' : '',
-              isAllocating ? 'allocating' : '',
+              cell ? 'occupied' : '',
+              isIndex ? 'index' : '',
+              activeBlocks.includes(index) ? 'active' : '',
+              trailBlocks.includes(index) ? 'trail' : '',
+              allocatingBlocks.includes(index) ? 'allocating' : '',
             ]
               .filter(Boolean)
               .join(' ')}
             style={
-              file
-                ? { backgroundColor: file.color, borderColor: file.color }
+              cell
+                ? isIndex
+                  ? { borderColor: color, color }
+                  : { backgroundColor: color, borderColor: color }
                 : undefined
             }
-            title={
-              file
-                ? `${file.name} · bloco ${index + 1}`
-                : `Livre · bloco ${index + 1}`
-            }
+            title={blockTitle(cell, index)}
           >
-            <span>{file ? file.name.slice(0, 2).toUpperCase() : ''}</span>
+            <span>
+              {isIndex ? 'IDX' : cell ? cell.file.name.slice(0, 2).toUpperCase() : ''}
+            </span>
             <small>{index + 1}</small>
           </div>
         )

@@ -3336,3 +3336,79 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* bloco de índice da indexada: tracejado, sem preenchimento */
+.lab-block.index {
+  background: #fff;
+  border-width: 2px;
+  border-style: dashed;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.lab-block.index small {
+  color: #706d7a;
+}
+
+/* resumo de ocupação do disco */
+.disk-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0 0 10px;
+}
+
+.disk-stats div {
+  background: #f7f8fa;
+  border: 1px solid #e0e5ea;
+  border-radius: 8px;
+  padding: 6px 8px;
+  min-width: 0;
+}
+
+.disk-stats dt {
+  font-size: 9px;
+  font-weight: 700;
+  color: #8293a2;
+  text-transform: uppercase;
+}
+
+.disk-stats dd {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #244b70;
+}
+
+.disk-stats div.warn {
+  border-color: #e3c08a;
+  background: #fdf6ea;
+}
+
+.disk-stats div.warn dd {
+  color: #8a5a14;
+}
+
+@media (max-width: 560px) {
+  .disk-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.compare-alert {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin: 0 0 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #fdf6ea;
+  color: #8a5a14;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.compare-alert svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
