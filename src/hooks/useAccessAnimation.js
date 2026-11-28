@@ -7,6 +7,11 @@ import {
 
 const STEP_MS = 480
 
+/**
+ * controla a animação de leitura de um arquivo
+ * @param {object} [timing] custos de cada operação
+ * @returns {{ playing: boolean, step: object | null, play: Function, stop: Function, reset: Function, activeBlocks: number[], trailBlocks: number[], showIndex: boolean }}
+ */
 export function useAccessAnimation(timing = DEFAULT_TIMING) {
   const [playing, setPlaying] = useState(false)
   const [step, setStep] = useState(null)
@@ -34,7 +39,8 @@ export function useAccessAnimation(timing = DEFAULT_TIMING) {
     setStep(null)
   }, [])
 
-  const play = useCallback(async (strategy, positions) => {
+  // roda os passos da leitura
+  const play = useCallback(async (strategy, positions, indexBlock = null) => {
     cancelRef.current = true
     await sleep(30)
     cancelRef.current = false
@@ -43,6 +49,7 @@ export function useAccessAnimation(timing = DEFAULT_TIMING) {
       strategy,
       positions,
       timingRef.current,
+      indexBlock,
     )
     if (!steps.length) {
       setStep(null)

@@ -1,7 +1,10 @@
+// painel com os detalhes do arquivo selecionado
 import { Clock } from 'lucide-react'
+import DiskStats from './DiskStats.jsx'
 
 export default function MetaPanel({
   strategy,
+  stats,
   placement,
   showIndex,
   estimate,
@@ -10,6 +13,7 @@ export default function MetaPanel({
   if (!placement) {
     return (
       <div className="lab-meta">
+        {stats && <DiskStats strategy={strategy} stats={stats} />}
         <div className="lab-meta-strategy">
           <p className="lab-meta-empty">
             Selecione um arquivo para ver localização e tempo estimado.
@@ -21,6 +25,7 @@ export default function MetaPanel({
 
   return (
     <div className="lab-meta">
+      {stats && <DiskStats strategy={strategy} stats={stats} />}
       <div className="meta-card time-card">
         <strong>
           <Clock size={14} /> Tempo para ler o arquivo
@@ -67,6 +72,10 @@ export default function MetaPanel({
         {strategy === 'chained' && (
           <div className="meta-card">
             <strong>Cadeia de ponteiros</strong>
+            <p>
+              Cada bloco guarda o endereço do próximo:{' '}
+              <b>{placement.positions.length} ponteiros</b> dentro dos dados.
+            </p>
             <ol className="pointer-chain">
               {placement.positions.map((block, i) => (
                 <li key={block}>
@@ -86,6 +95,12 @@ export default function MetaPanel({
 
         {(strategy === 'indexed' || showIndex) && (
           <div className="meta-card index-card">
+            {placement.indexBlock != null && (
+              <p>
+                Índice gravado no bloco <b>{placement.indexBlock + 1}</b> (1
+                bloco a mais no disco).
+              </p>
+            )}
             <table className="index-table">
               <thead>
                 <tr>
