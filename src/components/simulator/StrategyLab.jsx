@@ -1,3 +1,4 @@
+// tela de uma técnica só: editor de arquivos, disco, configurações e painel de detalhes.
 import { HardDrive, Play, RotateCcw, Square } from 'lucide-react'
 import { DEMO_SCENARIOS, useSimulation } from '../../simulation/index.js'
 import DiskGrid from './DiskGrid.jsx'
@@ -7,7 +8,7 @@ import SettingsPanel from './SettingsPanel.jsx'
 
 export default function StrategyLab({ strategy }) {
   const sim = useSimulation(strategy)
-  const liveText = sim.step?.text ?? (sim.busy ? sim.message : null)
+  const liveText = sim.step?.text ?? sim.message
 
   return (
     <div className="strategy-lab lab-layout lab-layout-aligned">
@@ -39,7 +40,6 @@ export default function StrategyLab({ strategy }) {
             key={sim.editorRevision}
             files={sim.files}
             selectedId={sim.selectedPlacement?.file.id}
-            freeBlocks={sim.freeBlocks}
             busy={sim.busy}
             onSelect={sim.selectFile}
             onCreate={sim.createFile}
@@ -113,6 +113,7 @@ export default function StrategyLab({ strategy }) {
 
           <MetaPanel
             strategy={strategy}
+            stats={sim.stats}
             placement={sim.selectedPlacement}
             showIndex={Boolean(sim.step?.showIndex)}
             estimate={sim.lastEstimate ?? sim.previewEstimate}

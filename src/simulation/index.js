@@ -5,25 +5,30 @@ export {
   DISK_SIZE_OPTIONS,
   FILE_COLORS,
   INITIAL_FILES,
+  MAX_FILE_BLOCKS,
   STRATEGY_DETAILS,
 } from './constants.js'
 
 export {
+  allocateFile,
   countFreeBlocks,
+  createDisk,
+  diskStats,
   getFilePositions,
-  hasContiguousSpace,
-  planAllocation,
+  getPlacements,
+  largestFreeRun,
+  removeFile,
+  resizeDisk,
+  runOperations,
   sleep,
+  updateFile,
 } from './allocation.js'
 
 export {
   buildFile,
-  cloneInitialFiles,
-  fitFilesToDisk,
+  createFileId,
   nextFileColor,
   suggestFileName,
-  totalBlocksUsed,
-  withFileIds,
 } from './files.js'
 
 export { buildTimedAccessSteps, estimateAccessTime } from './timing.js'

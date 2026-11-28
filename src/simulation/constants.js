@@ -2,7 +2,10 @@ export const DEFAULT_DISK_SIZE = 24
 
 export const DISK_SIZE_OPTIONS = [12, 16, 24, 32, 48]
 
-/** Timing costs in time units (t.u.) for the educational simulation. */
+// limite usado pelo formulário e por buildFile
+export const MAX_FILE_BLOCKS = 12
+
+// custos de tempo (em unidades de tempo) usados na simulação de acesso
 export const DEFAULT_TIMING = {
   seek: 10,
   sequential: 1,
@@ -73,31 +76,51 @@ export const STRATEGY_DETAILS = {
   },
 }
 
+// cria um arquivo de exemplo; scatter deixa os blocos espalhados na
+// encadeada e na indexada para a diferença de acesso aparecer
+const create = (file) => ({ type: 'create', file, scatter: true })
+
+const fragFiles = {
+  a: { id: 'frag-a', name: 'A', blocks: 4, color: FILE_COLORS[0] },
+  b: { id: 'frag-b', name: 'B', blocks: 3, color: FILE_COLORS[1] },
+  c: { id: 'frag-c', name: 'C', blocks: 4, color: FILE_COLORS[2] },
+  d: { id: 'frag-d', name: 'D', blocks: 3, color: FILE_COLORS[3] },
+  e: { id: 'frag-e', name: 'E', blocks: 4, color: FILE_COLORS[4] },
+  f: { id: 'frag-f', name: 'F', blocks: 7, color: FILE_COLORS[1] },
+}
+
+// cada cenário é uma sequência de operações aplicada num disco vazio
 export const DEMO_SCENARIOS = [
   {
     id: 'basic',
     title: 'Cenário básico',
     description: 'Três arquivos pequenos para comparar as estratégias.',
-    files: INITIAL_FILES,
+    operations: INITIAL_FILES.map(create),
   },
   {
     id: 'fragmentation',
     title: 'Fragmentação',
-    description: 'Vários arquivos pequenos intercalados no disco.',
-    files: [
-      { id: 'frag-a', name: 'A', blocks: 2, color: FILE_COLORS[0] },
-      { id: 'frag-b', name: 'B', blocks: 2, color: FILE_COLORS[1] },
-      { id: 'frag-c', name: 'C', blocks: 2, color: FILE_COLORS[2] },
-      { id: 'frag-d', name: 'D', blocks: 2, color: FILE_COLORS[3] },
+    description:
+      'Cria A a E, remove B e D e tenta criar F (7 blocos), maior que cada buraco.',
+    operations: [
+      create(fragFiles.a),
+      create(fragFiles.b),
+      create(fragFiles.c),
+      create(fragFiles.d),
+      create(fragFiles.e),
+      { type: 'remove', fileId: 'frag-b' },
+      { type: 'remove', fileId: 'frag-d' },
+      // F usa os blocos livres reais, sem espalhar
+      { type: 'create', file: fragFiles.f },
     ],
   },
   {
     id: 'large',
     title: 'Arquivo maior',
     description: 'Um arquivo de 6 blocos destaca diferenças de tempo.',
-    files: [
-      { id: 'big-video', name: 'Video', blocks: 6, color: FILE_COLORS[4] },
-      { id: 'big-docs', name: 'Docs', blocks: 2, color: FILE_COLORS[1] },
+    operations: [
+      create({ id: 'big-video', name: 'Video', blocks: 6, color: FILE_COLORS[4] }),
+      create({ id: 'big-docs', name: 'Docs', blocks: 2, color: FILE_COLORS[1] }),
     ],
   },
 ]

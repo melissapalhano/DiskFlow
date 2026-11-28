@@ -1,7 +1,10 @@
+// formulário para criar e editar arquivos, mais a lista do que está no disco.
+// quem decide se cabe é a simulação; aqui só mostramos o erro que ela devolve.
 import { useState } from 'react'
 import { Check, Pencil, Trash2, X } from 'lucide-react'
 import {
   FILE_COLORS,
+  MAX_FILE_BLOCKS,
   buildFile,
   nextFileColor,
   suggestFileName,
@@ -22,7 +25,6 @@ export default function FileEditor({
   onCreate,
   onUpdate,
   onDelete,
-  freeBlocks,
   busy = false,
 }) {
   const [mode, setMode] = useState('create')
@@ -66,27 +68,17 @@ export default function FileEditor({
       return
     }
 
+    // onCreate/onUpdate devolvem true ou a mensagem de erro
+    const result = await (mode === 'create' ? onCreate(draft) : onUpdate(draft))
+    if (result !== true) {
+      setError(typeof result === 'string' ? result : 'Não foi possível salvar.')
+      return
+    }
     if (mode === 'create') {
-      if (draft.blocks > freeBlocks) {
-        setError(`Só há ${freeBlocks} bloco(s) livre(s).`)
-        return
-      }
-      const ok = await onCreate(draft)
-      if (ok === false) return
       setForm(createForm([...files, draft]))
       setError('')
       return
     }
-
-    const current = files.find((file) => file.id === form.id)
-    const delta = draft.blocks - (current?.blocks ?? 0)
-    if (delta > freeBlocks) {
-      setError(`Não há espaço para aumentar ${delta} bloco(s).`)
-      return
-    }
-
-    const ok = await onUpdate(draft)
-    if (ok === false) return
     startCreate()
   }
 
@@ -135,7 +127,7 @@ export default function FileEditor({
           <input
             type="number"
             min={1}
-            max={12}
+            max={MAX_FILE_BLOCKS}
             value={form.blocks}
             disabled={busy}
             onChange={(event) =>

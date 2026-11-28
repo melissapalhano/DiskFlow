@@ -1,10 +1,14 @@
 import { DEFAULT_TIMING } from './constants.js'
 
 /**
- * Computes total access time (time units) for the given strategy.
- * Contiguous: 1 seek + n reads + (n-1) sequential moves
- * Chained: n reads + (n-1) pointers + seeks between non-adjacent blocks
- * Indexed: 1 index lookup + n (seek + read)
+ * calcula o tempo total para ler um arquivo inteiro.
+ * contígua: 1 busca + n leituras + (n-1) avanços sequenciais
+ * encadeada: n leituras + (n-1) ponteiros + saltos entre blocos não vizinhos
+ * indexada: 1 consulta ao índice + n (busca + leitura)
+ * @param {string} strategy técnica de alocação
+ * @param {number[]} positions blocos do arquivo na ordem de leitura
+ * @param {object} [timing] custos de cada operação
+ * @returns {{ total: number, breakdown: { label: string, cost: number }[], label: string }}
  */
 export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING) {
   const n = positions.length
@@ -66,8 +70,20 @@ export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING)
   }
 }
 
-/** Builds timed animation steps for access playback. */
-export function buildTimedAccessSteps(strategy, positions, timing = DEFAULT_TIMING) {
+/**
+ * gera os passos da animação de leitura, com o tempo acumulado em cada um.
+ * @param {string} strategy técnica de alocação
+ * @param {number[]} positions blocos do arquivo na ordem de leitura
+ * @param {object} [timing] custos de cada operação
+ * @param {number | null} [indexBlock] bloco de índice (só na indexada)
+ * @returns {{ steps: object[], estimate: object }}
+ */
+export function buildTimedAccessSteps(
+  strategy,
+  positions,
+  timing = DEFAULT_TIMING,
+  indexBlock = null,
+) {
   const estimate = estimateAccessTime(strategy, positions, timing)
   if (!positions.length) return { steps: [], estimate }
 
@@ -176,7 +192,8 @@ export function buildTimedAccessSteps(strategy, positions, timing = DEFAULT_TIMI
       id: 'index',
       kind: 'index',
       text: `Consulta índices (+${timing.indexLookup}).`,
-      active: [],
+      // acende o bloco onde o índice está gravado
+      active: indexBlock != null ? [indexBlock] : [],
       trail: [],
       showIndex: true,
       elapsed,

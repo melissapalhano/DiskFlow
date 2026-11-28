@@ -1,51 +1,44 @@
-import { FILE_COLORS, INITIAL_FILES } from './constants.js'
+import { FILE_COLORS, MAX_FILE_BLOCKS } from './constants.js'
 
 let fileSeq = 0
 
+/**
+ * gera um id único para um arquivo novo.
+ * @returns {string}
+ */
 export function createFileId() {
   fileSeq += 1
   return `file-${Date.now()}-${fileSeq}`
 }
 
-export function withFileIds(files) {
-  return files.map((file) => ({
-    ...file,
-    id: file.id ?? createFileId(),
-  }))
-}
-
-export function cloneInitialFiles() {
-  return withFileIds(INITIAL_FILES.map((file) => ({ ...file })))
-}
-
+/**
+ * normaliza os dados do formulário num arquivo válido.
+ * @param {{ name?: string, blocks?: number, color?: string, id?: string }} data
+ * @returns {{ id: string, name: string, blocks: number, color: string }}
+ */
 export function buildFile({ name, blocks, color, id }) {
   return {
     id: id ?? createFileId(),
     name: (name || 'Arquivo').trim() || 'Arquivo',
-    blocks: Math.min(24, Math.max(1, Number(blocks) || 1)),
+    blocks: Math.min(MAX_FILE_BLOCKS, Math.max(1, Number(blocks) || 1)),
     color: color || FILE_COLORS[0],
   }
 }
 
+/**
+ * sugere a próxima cor, girando pela paleta.
+ * @param {object[]} files arquivos atuais
+ * @returns {string}
+ */
 export function nextFileColor(files) {
   return FILE_COLORS[files.length % FILE_COLORS.length]
 }
 
+/**
+ * sugere um nome padrão para o próximo arquivo.
+ * @param {object[]} files arquivos atuais
+ * @returns {string}
+ */
 export function suggestFileName(files) {
   return `Arquivo ${files.length + 1}`
-}
-
-export function totalBlocksUsed(files) {
-  return files.reduce((sum, file) => sum + file.blocks, 0)
-}
-
-export function fitFilesToDisk(files, diskSize) {
-  const result = []
-  let used = 0
-  for (const file of files) {
-    if (used + file.blocks > diskSize) break
-    result.push(file)
-    used += file.blocks
-  }
-  return result.length ? result : [buildFile({ name: 'Arquivo', blocks: 1 })]
 }
