@@ -26,7 +26,7 @@ export function buildFile({ name, blocks, color, id }) {
 }
 
 /**
- * sugere a próxima cor, girando pela paleta.
+ * sugere a próxima cor
  * @param {object[]} files arquivos atuais
  * @returns {string}
  */

@@ -1,4 +1,4 @@
-// configurações do disco: tamanho e custo de tempo das operações.
+// configurações do disco
 import { Settings } from 'lucide-react'
 import { DISK_SIZE_OPTIONS } from '../../simulation/index.js'
 import { TIMING_PRESETS } from '../../simulation/timingPresets.js'

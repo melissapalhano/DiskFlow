@@ -1,5 +1,4 @@
-// compara as três técnicas lado a lado. cada uma tem o próprio disco
-// persistente e recebe as mesmas operações de criar, editar e remover.
+// compara as três técnicas lado a lado
 import { useMemo, useState } from 'react'
 import { AlertTriangle, Play, RotateCcw } from 'lucide-react'
 import {
@@ -26,7 +25,7 @@ import SettingsPanel from './SettingsPanel.jsx'
 const STRATEGIES = ['contiguous', 'chained', 'indexed']
 const DEFAULT_SCENARIO = 'basic'
 
-// junta os arquivos dos três discos sem repetir, na ordem em que aparecem
+// junta os arquivos dos três discos sem repetir
 function unionFiles(disks, order = []) {
   const seen = new Map()
   STRATEGIES.forEach((strategy) => {
@@ -39,7 +38,7 @@ function unionFiles(disks, order = []) {
   return [...ordered, ...rest]
 }
 
-// monta os três discos de um cenário e guarda o erro de cada técnica
+// monta os três discos de um cenário
 function buildScenario(scenarioId, size) {
   const scenario = DEMO_SCENARIOS.find((item) => item.id === scenarioId)
   const operations = scenario?.operations ?? []
@@ -127,7 +126,7 @@ export default function CompareView() {
     setEditorRevision((value) => value + 1)
   }
 
-  // aplica a mesma operação nos três discos; cada um guarda seu resultado
+  // aplica a mesma operação nos três discos
   const applyToAll = (operation) => {
     const nextDisks = {}
     const nextStatus = {}

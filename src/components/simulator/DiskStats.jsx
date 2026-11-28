@@ -1,5 +1,4 @@
-// resumo de ocupação de um disco: dados, metadados, livres e o maior
-// trecho livre seguido (quando é bem menor que o livre total, há fragmentação)
+// resumo de ocupação de um disco
 export default function DiskStats({ strategy, stats }) {
   const fragmented =
     stats.freeBlocks > 0 && stats.largestFreeRun < stats.freeBlocks

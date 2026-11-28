@@ -1,4 +1,4 @@
-// tela de uma técnica só: editor de arquivos, disco, configurações e painel de detalhes.
+// tela de uma técnica só
 import { HardDrive, Play, RotateCcw, Square } from 'lucide-react'
 import { DEMO_SCENARIOS, useSimulation } from '../../simulation/index.js'
 import DiskGrid from './DiskGrid.jsx'

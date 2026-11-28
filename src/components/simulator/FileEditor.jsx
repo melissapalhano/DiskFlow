@@ -1,5 +1,4 @@
-// formulário para criar e editar arquivos, mais a lista do que está no disco.
-// quem decide se cabe é a simulação; aqui só mostramos o erro que ela devolve.
+// formulário para criar e editar arquivos
 import { useState } from 'react'
 import { Check, Pencil, Trash2, X } from 'lucide-react'
 import {
@@ -68,7 +67,7 @@ export default function FileEditor({
       return
     }
 
-    // onCreate/onUpdate devolvem true ou a mensagem de erro
+    // devolve true ou a mensagem de erro
     const result = await (mode === 'create' ? onCreate(draft) : onUpdate(draft))
     if (result !== true) {
       setError(typeof result === 'string' ? result : 'Não foi possível salvar.')

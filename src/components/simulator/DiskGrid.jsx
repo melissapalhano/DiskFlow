@@ -1,5 +1,4 @@
-// desenha o disco como uma grade de blocos. blocos de índice aparecem
-// tracejados com "IDX" e, na encadeada, o tooltip mostra o próximo bloco.
+// desenha o disco como uma grade de blocos
 function blockTitle(cell, index) {
   const label = `bloco ${index + 1}`
   if (!cell) return `Livre · ${label}`

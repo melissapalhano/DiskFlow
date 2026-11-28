@@ -1,8 +1,4 @@
-// cada posição do disco é null (livre) ou uma célula:
-//   { file, kind: 'data', next }   bloco de dados (next só é usado na encadeada)
-//   { file, kind: 'index', entries } bloco de índice da indexada
-// o diretório guarda só o necessário para achar o arquivo: o bloco inicial
-// (contígua), a cabeça da lista (encadeada) ou o bloco de índice (indexada).
+// cada posição do disco é null (livre) ou um bloco de dados/índice
 
 /**
  * cria um disco vazio.
@@ -33,8 +29,7 @@ export function countFreeBlocks(blocks) {
 }
 
 /**
- * tamanho do maior trecho livre contínuo. se for menor que o total livre,
- * o espaço está quebrado em buracos (fragmentação externa).
+ * tamanho do maior trecho livre contínuo
  * @param {Array} blocks blocos do disco
  * @returns {number}
  */
@@ -49,7 +44,7 @@ export function largestFreeRun(blocks) {
 }
 
 /**
- * first-fit: devolve o primeiro trecho livre com `size` blocos seguidos.
+ * first-fit: primeiro trecho livre com `size` blocos seguidos
  * @param {Array} blocks blocos do disco
  * @param {number} size blocos necessários
  * @returns {number[]} posições do trecho, ou [] se não houver
@@ -61,7 +56,7 @@ function findFirstFit(blocks, size) {
       start = i + 1
       continue
     }
-    // achou blocos livres seguidos o bastante a partir de `start`
+    // achou o trecho
     if (i - start + 1 === size) {
       return Array.from({ length: size }, (_, k) => start + k)
     }
@@ -70,8 +65,7 @@ function findFirstFit(blocks, size) {
 }
 
 /**
- * escolhe blocos livres intercalados (pares da lista de livres e depois
- * ímpares). só serve para deixar os cenários de exemplo espalhados.
+ * escolhe blocos livres intercalados
  * @param {number[]} free posições livres
  * @param {number} size blocos necessários
  * @returns {number[]}
@@ -83,7 +77,7 @@ function pickScattered(free, size) {
 }
 
 /**
- * aloca um arquivo no estado atual do disco, sem mexer nos outros arquivos.
+ * aloca um arquivo sem mexer nos outros
  * @param {object} disk disco atual
  * @param {{ id: string, name: string, blocks: number, color: string }} file arquivo novo
  * @param {{ scatter?: boolean }} [options] scatter espalha os blocos (só cenários)
@@ -93,7 +87,7 @@ function pickScattered(free, size) {
 export function allocateFile(disk, file, options = {}) {
   const { strategy } = disk
   const free = freePositions(disk.blocks)
-  // a indexada precisa de um bloco a mais para guardar o índice
+  // a indexada precisa de um bloco a mais para o índice
   const needed = file.blocks + (strategy === 'indexed' ? 1 : 0)
 
   if (needed > free.length) {
@@ -123,11 +117,11 @@ export function allocateFile(disk, file, options = {}) {
     })
     start = segment[0]
   } else {
-    // encadeada e indexada aproveitam qualquer bloco livre, inclusive buracos
+    // encadeada e indexada usam qualquer bloco livre
     let pool = free
     let indexBlock = null
     if (strategy === 'indexed') {
-      // reserva o primeiro livre para o índice, os dados vêm do resto
+      // reserva o primeiro livre para o índice
       indexBlock = pool[0]
       pool = pool.slice(1)
     }
@@ -136,7 +130,7 @@ export function allocateFile(disk, file, options = {}) {
       : pool.slice(0, file.blocks)
 
     positions.forEach((pos, i) => {
-      // na encadeada cada bloco guarda o endereço do próximo; o último fica null
+      // cada bloco aponta para o próximo
       const next =
         strategy === 'chained' ? (positions[i + 1] ?? null) : null
       blocks[pos] = { file, kind: 'data', next }
@@ -158,7 +152,7 @@ export function allocateFile(disk, file, options = {}) {
 }
 
 /**
- * remove um arquivo liberando só os blocos dele (inclusive o de índice).
+ * remove um arquivo liberando os blocos dele
  * @param {object} disk disco atual
  * @param {string} fileId id do arquivo
  * @returns {object} novo disco
@@ -172,8 +166,7 @@ export function removeFile(disk, fileId) {
 }
 
 /**
- * troca um arquivo por uma nova versão: remove e aloca de novo só ele.
- * se não couber, o disco continua como estava.
+ * realoca só um arquivo
  * @param {object} disk disco atual
  * @param {object} file arquivo com os dados novos (mesmo id)
  * @returns {{ ok: boolean, disk: object, reason?: string, message: string }}
@@ -183,7 +176,7 @@ export function updateFile(disk, file) {
   const result = allocateFile(removeFile(disk, file.id), file)
   if (!result.ok) return { ...result, disk }
 
-  // mantém o arquivo na mesma posição da lista do diretório
+  // mantém a ordem do diretório
   const directory = result.disk.directory.filter((e) => e.file.id !== file.id)
   const entry = result.disk.directory.at(-1)
   directory.splice(position < 0 ? directory.length : position, 0, entry)
@@ -195,9 +188,7 @@ export function updateFile(disk, file) {
 }
 
 /**
- * devolve os blocos de dados do arquivo na ordem de leitura, usando só o
- * que está gravado no disco: o trecho (contígua), os ponteiros (encadeada)
- * ou a lista do bloco de índice (indexada).
+ * blocos do arquivo na ordem de leitura
  * @param {object} disk disco atual
  * @param {string} fileId id do arquivo
  * @returns {number[]}
@@ -213,7 +204,7 @@ export function getFilePositions(disk, fileId) {
     return [...disk.blocks[entry.start].entries]
   }
 
-  // segue a cadeia de ponteiros a partir da cabeça
+  // segue os ponteiros
   const chain = []
   for (let pos = entry.start; pos != null; pos = disk.blocks[pos].next) {
     chain.push(pos)
@@ -222,7 +213,7 @@ export function getFilePositions(disk, fileId) {
 }
 
 /**
- * monta a visão de cada arquivo usada pelos painéis.
+ * monta a visão de cada arquivo
  * @param {object} disk disco atual
  * @returns {{ file: object, positions: number[], indexBlock: number | null }[]}
  */
@@ -235,7 +226,7 @@ export function getPlacements(disk) {
 }
 
 /**
- * números de ocupação do disco, para comparar o custo de espaço.
+ * números de ocupação do disco
  * @param {object} disk disco atual
  * @returns {{ dataBlocks: number, indexBlocks: number, pointers: number, freeBlocks: number, largestFreeRun: number }}
  */
@@ -244,7 +235,7 @@ export function diskStats(disk) {
   return {
     dataBlocks: data,
     indexBlocks: disk.blocks.filter((cell) => cell?.kind === 'index').length,
-    // na encadeada todo bloco de dados perde um pedaço para o campo next
+    // um ponteiro por bloco na encadeada
     pointers: disk.strategy === 'chained' ? data : 0,
     freeBlocks: countFreeBlocks(disk.blocks),
     largestFreeRun: largestFreeRun(disk.blocks),
@@ -252,8 +243,7 @@ export function diskStats(disk) {
 }
 
 /**
- * aplica uma lista de operações (criar/remover) num disco vazio.
- * usado pelos cenários de exemplo.
+ * aplica uma lista de operações num disco vazio
  * @param {number} size tamanho do disco
  * @param {string} strategy técnica de alocação
  * @param {{ type: 'create' | 'remove', file?: object, fileId?: string }[]} operations
@@ -283,8 +273,7 @@ export function runOperations(size, strategy, operations) {
 }
 
 /**
- * realoca os arquivos atuais num disco de outro tamanho, na mesma ordem.
- * funciona como formatar e copiar tudo de volta; o que não couber fica de fora.
+ * realoca os arquivos num disco de outro tamanho
  * @param {object} disk disco atual
  * @param {number} size novo tamanho
  * @returns {{ disk: object, log: string[], failed: object[] }}
@@ -298,7 +287,7 @@ export function resizeDisk(disk, size) {
 }
 
 /**
- * espera alguns milissegundos (usado nas animações).
+ * espera alguns milissegundos
  * @param {number} ms tempo em milissegundos
  * @returns {Promise<void>}
  */

@@ -1,4 +1,4 @@
-// testes rápidos da lógica de alocação, sem framework: node scripts/testar-alocacao.mjs
+// testes da lógica de alocação
 import assert from 'node:assert/strict'
 import {
   allocateFile,
@@ -12,7 +12,7 @@ import { DEMO_SCENARIOS } from '../src/simulation/constants.js'
 
 const file = (name, blocks) => ({ id: name, name, blocks, color: '#000' })
 
-// desenha o disco como texto: letra do arquivo, "i" para índice, "." livre
+// desenha o disco como texto
 const draw = (disk) =>
   disk.blocks
     .map((c) => (!c ? '.' : c.kind === 'index' ? 'i' : c.file.name))

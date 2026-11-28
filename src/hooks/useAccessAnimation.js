@@ -8,8 +8,7 @@ import {
 const STEP_MS = 480
 
 /**
- * controla a animação de leitura de um arquivo, passo a passo.
- * usado na comparação, onde cada técnica tem a sua animação.
+ * controla a animação de leitura de um arquivo
  * @param {object} [timing] custos de cada operação
  * @returns {{ playing: boolean, step: object | null, play: Function, stop: Function, reset: Function, activeBlocks: number[], trailBlocks: number[], showIndex: boolean }}
  */
@@ -40,7 +39,7 @@ export function useAccessAnimation(timing = DEFAULT_TIMING) {
     setStep(null)
   }, [])
 
-  // play(strategy, positions, indexBlock): roda os passos até o fim ou até ser cancelado
+  // roda os passos da leitura
   const play = useCallback(async (strategy, positions, indexBlock = null) => {
     cancelRef.current = true
     await sleep(30)

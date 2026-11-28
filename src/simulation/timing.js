@@ -1,10 +1,7 @@
 import { DEFAULT_TIMING } from './constants.js'
 
 /**
- * calcula o tempo total para ler um arquivo inteiro.
- * contígua: 1 busca + n leituras + (n-1) avanços sequenciais
- * encadeada: n leituras + (n-1) ponteiros + saltos entre blocos não vizinhos
- * indexada: 1 consulta ao índice + n (busca + leitura)
+ * calcula o tempo para ler um arquivo inteiro
  * @param {string} strategy técnica de alocação
  * @param {number[]} positions blocos do arquivo na ordem de leitura
  * @param {object} [timing] custos de cada operação
@@ -71,7 +68,7 @@ export function estimateAccessTime(strategy, positions, timing = DEFAULT_TIMING)
 }
 
 /**
- * gera os passos da animação de leitura, com o tempo acumulado em cada um.
+ * gera os passos da animação de leitura
  * @param {string} strategy técnica de alocação
  * @param {number[]} positions blocos do arquivo na ordem de leitura
  * @param {object} [timing] custos de cada operação
@@ -192,7 +189,7 @@ export function buildTimedAccessSteps(
       id: 'index',
       kind: 'index',
       text: `Consulta índices (+${timing.indexLookup}).`,
-      // acende o bloco onde o índice está gravado
+      // acende o bloco de índice
       active: indexBlock != null ? [indexBlock] : [],
       trail: [],
       showIndex: true,

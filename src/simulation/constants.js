@@ -2,10 +2,10 @@ export const DEFAULT_DISK_SIZE = 24
 
 export const DISK_SIZE_OPTIONS = [12, 16, 24, 32, 48]
 
-// limite usado pelo formulário e por buildFile
+// tamanho máximo de um arquivo
 export const MAX_FILE_BLOCKS = 12
 
-// custos de tempo (em unidades de tempo) usados na simulação de acesso
+// custos de tempo da simulação de acesso
 export const DEFAULT_TIMING = {
   seek: 10,
   sequential: 1,
@@ -76,8 +76,7 @@ export const STRATEGY_DETAILS = {
   },
 }
 
-// cria um arquivo de exemplo; scatter deixa os blocos espalhados na
-// encadeada e na indexada para a diferença de acesso aparecer
+// cria um arquivo de exemplo
 const create = (file) => ({ type: 'create', file, scatter: true })
 
 const fragFiles = {
@@ -89,7 +88,7 @@ const fragFiles = {
   f: { id: 'frag-f', name: 'F', blocks: 7, color: FILE_COLORS[1] },
 }
 
-// cada cenário é uma sequência de operações aplicada num disco vazio
+// cada cenário é uma sequência de operações
 export const DEMO_SCENARIOS = [
   {
     id: 'basic',
@@ -110,7 +109,7 @@ export const DEMO_SCENARIOS = [
       create(fragFiles.e),
       { type: 'remove', fileId: 'frag-b' },
       { type: 'remove', fileId: 'frag-d' },
-      // F usa os blocos livres reais, sem espalhar
+      // F usa os blocos livres reais
       { type: 'create', file: fragFiles.f },
     ],
   },

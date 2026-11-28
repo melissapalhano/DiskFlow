@@ -34,8 +34,7 @@ function buildScenario(scenarioId, strategy, size) {
 }
 
 /**
- * estado e ações do simulador de uma técnica só. o disco é persistente:
- * criar, editar ou remover parte sempre do estado atual.
+ * estado e ações do simulador de uma técnica
  * @param {'contiguous' | 'chained' | 'indexed'} strategy técnica da aba
  * @returns {object} dados do disco, do arquivo selecionado e as ações da tela
  */
@@ -57,7 +56,7 @@ export function useSimulation(strategy) {
   const [lastEstimate, setLastEstimate] = useState(null)
   const [editorRevision, setEditorRevision] = useState(0)
   const [activePreset, setActivePreset] = useState(DEFAULT_SCENARIO)
-  // cenário de onde o disco partiu; é para ele que o reiniciar volta
+  // cenário para onde o reiniciar volta
   const [baseScenario, setBaseScenario] = useState(DEFAULT_SCENARIO)
   const cancelRef = useRef(false)
 
@@ -90,7 +89,7 @@ export function useSimulation(strategy) {
     setStep(null)
   }, [])
 
-  // carrega um cenário do zero; o resultado da última operação vira a mensagem
+  // carrega um cenário do zero
   const applyScenario = (scenarioId, size) => {
     resetAnimation()
     const { disk: next, log } = buildScenario(scenarioId, strategy, size)
@@ -127,7 +126,7 @@ export function useSimulation(strategy) {
     [resetAnimation],
   )
 
-  // mostra os blocos novos acendendo um a um e só depois grava o disco
+  // acende os blocos novos um a um
   const animateAllocation = async (nextDisk, file) => {
     const positions = nextDisk.blocks.flatMap((cell, index) =>
       cell?.file.id === file.id && cell !== disk.blocks[index] ? [index] : [],
@@ -143,7 +142,7 @@ export function useSimulation(strategy) {
     setAllocating([])
   }
 
-  // devolve true ou o texto do erro, que o formulário exibe
+  // devolve true ou a mensagem de erro
   const createFile = async (file) => {
     resetAnimation()
     const result = allocateFile(disk, file)

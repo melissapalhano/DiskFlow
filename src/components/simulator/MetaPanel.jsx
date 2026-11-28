@@ -1,5 +1,4 @@
-// painel ao lado do disco: ocupação, tempo estimado de leitura e onde
-// o arquivo selecionado está (trecho, cadeia de ponteiros ou índice).
+// painel com os detalhes do arquivo selecionado
 import { Clock } from 'lucide-react'
 import DiskStats from './DiskStats.jsx'
 
